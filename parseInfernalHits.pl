@@ -17,11 +17,13 @@ our $debug = 0;
 our $debug2 = 0;
 
 my $infile = "L4-unclassified_Infernal_Rfam_all.txt.gz";
-my $outfile = "L4-Rfam-Hits.txt";
+my $outfile = "L4-Rfam-all_topHits.txt";
+my $cutoff = 100;
 GetOptions(
     "in=s"  =>  \$infile,
     "debug" =>  \$debug,
     "out=s" => \$outfile,
+    "cutoff=s" => \$cutoff,
 );
 
 
@@ -54,7 +56,7 @@ while( my $line = <IN>){
             print "new score = ".$flds[15]."\n";
     
         }
-        if ((!defined($sh->{$flds[2]}->{E}) || $sh->{$flds[2]}->{E} > $flds[15]) && $flds[15] <= 1.0 ) {
+        if ((!defined($sh->{$flds[2]}->{E}) || $sh->{$flds[2]}->{E} > $flds[15]) && $flds[15] <= $cutoff ) {
             print "adding entry to hash\n" if ($debug);
             $sh->{$flds[2]}->{E} = $flds[15];
             $sh->{$flds[2]}->{target} = $flds[0];
